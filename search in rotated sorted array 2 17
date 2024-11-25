@@ -1,0 +1,64 @@
+int findPivot(int* nums,int i,int j){
+    // printf("%d------%d\n",i,j);
+    int left=i;
+    int right=j;
+    int middle=(left+right)/2;
+    if(j-i==1){
+        if(nums[i]>nums[j]){
+            return j;
+        }
+        else{
+            return i;
+        }
+    }
+    else if(j-i==2){
+        if(nums[i+1]>nums[j]){
+            return j;
+        }
+        else if(nums[i]<nums[i+1]){
+            return i;
+        }
+        else{
+            return i+1;
+        }
+    }
+    if(nums[left]>nums[middle]){
+        right=(right+left)/2;
+        return findPivot(nums,left,right);
+    }
+    else{
+        left=(left+right)/2;
+        return findPivot(nums,left,right);
+    }
+}
+
+int BinarySearch(int array[], int left, int right, int element){
+   if (right >= left){
+      int middle = left+(right - left )/2;
+      if (array[middle] == element){
+               return middle;    
+      }
+      if (array[middle] > element){
+         return BinarySearch(array, left, middle-1, element);    
+      }
+      return BinarySearch(array, middle+1, right, element);
+   }
+   return -1;
+}
+
+bool search(int* nums, int numsSize, int target){
+    //virtually splitting the arrays in two
+    if(numsSize==1){
+        return nums[0]==target;
+    }
+    int pivot=findPivot(nums,0,numsSize-1);
+    while (pivot>0){
+        if(nums[pivot]==nums[pivot-1]){
+            pivot--;
+        }
+        else{
+            break;
+        }
+    }
+    return BinarySearch(nums,pivot,numsSize-1,target)>=0|BinarySearch(nums,0,pivot,target)>=0;
+}
