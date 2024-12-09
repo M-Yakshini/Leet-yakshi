@@ -1,0 +1,28 @@
+#define N 128
+bool isIsomorphic(char * s, char * t){
+    int mapS[N]={0};
+    int mapT[N]={0};
+    // for testcase 44
+    if(t == NULL) 
+        return false;
+    // check if string lenghts are the same
+    if(strlen(s)!= strlen(t))
+        return false;
+
+    // use 2 hashmap
+    for(int i = 0 ; s[i] != '\0' ; i++)
+    {
+        if(mapS[s[i]] == 0 && mapT[t[i]]== 0)
+            {
+                mapS[s[i]] = t[i];
+                mapT[t[i]] = s[i];
+            }
+        else
+            {
+            if(mapS[s[i]] != t[i] || mapT[t[i]] != s[i])
+                return false;
+            }
+    }
+    
+    return true;
+}
