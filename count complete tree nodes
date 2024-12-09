@@ -1,0 +1,123 @@
+int calcLeftH(struct TreeNode* root)
+{
+    int count = 0;
+
+    while(root != NULL)
+    {
+        count++;
+        root = root->left;
+    }
+
+    return count;
+}
+
+int calcRightH(struct TreeNode* root)
+{
+    int count = 1;
+
+    if(root->right != NULL)
+    {
+        count += calcLeftH(root->right);
+    }
+
+    return count;
+
+}
+
+int pow2(int n)
+{
+    // calc 2^n
+
+    int ans = 1;
+
+    return ans << n;
+
+}
+
+int getNodes(int h)
+{   
+    int c = 0;
+
+    for(int i = 0 ; i < h ; i++)
+    {
+        c += (pow2(i));
+    }
+
+    return c;
+}
+
+int countNodes(struct TreeNode* root) {
+    struct TreeNode* pIterator = root;
+
+    if(root == NULL)
+    {
+        return 0;
+    }
+
+    int count = 0;
+
+    int rh = 0;
+    int lh = 0;
+
+    while(pIterator)
+    {
+        pIterator = pIterator->right;
+        rh++;
+    } 
+
+    pIterator = root;
+    while(pIterator)
+    {
+        pIterator = pIterator->left;
+        lh++;
+    }
+
+    if(rh == 1)
+    {
+        return lh;
+    }
+
+    // 2 childs ara guranteed
+
+    struct TreeNode* r = root->right;
+    struct TreeNode* l = root->left;
+
+    int rrh = rh -1;
+    int llh = lh -1;
+
+    int rlh = 0;
+    int lrh = 0;
+
+    pIterator = r;
+    while(pIterator)
+    {
+        pIterator = pIterator->left;
+        rlh++;
+    }
+
+    pIterator = l;
+    while(pIterator)
+    {
+        pIterator = pIterator->right;
+        lrh++;
+    }
+
+    // count the root
+    count++;
+    if(rlh == rrh)
+    {
+        // full tree
+        count += getNodes(rrh);
+
+        count += countNodes(l);
+    }
+    else
+    {
+        // left is full tree
+        count += getNodes(lrh);
+
+        count += countNodes(r);
+    }
+
+    return count;
+}
