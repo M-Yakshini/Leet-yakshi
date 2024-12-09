@@ -1,0 +1,20 @@
+struct ListNode* removeElements(struct ListNode* head, int val)
+{
+    struct ListNode* sen = (struct ListNode*) malloc (sizeof(struct ListNode));
+    struct ListNode* c, *p;
+    sen->next = head;
+    c = head;
+    p = sen;
+    while (c)
+    {
+        if (c->val == val)
+        {
+            p->next = c->next;
+            c = p->next;
+            continue;
+        }
+        p = p->next;
+        c = c->next;
+    }
+    return sen->next;    
+}
