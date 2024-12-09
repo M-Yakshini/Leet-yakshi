@@ -1,0 +1,26 @@
+bool isHappy(int n){
+    int *num = malloc(sizeof(int) * 16);
+    int i;
+    int t = n;
+
+    while (t > 4)
+    {
+        i = 0;
+        int c = 0;
+        while (t > 0)
+        {
+            num[i++] = t % 10;
+            c++;
+            t /= 10;
+        }
+        for (i = 0; i < c; i++)
+        {   
+            t += num[i] * num[i];
+            num[i] = 0;
+        }
+    }
+    free (num);
+    if (t == 1)
+        return (true);
+    return false;
+}
